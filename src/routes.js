@@ -36,7 +36,19 @@ const jobs = [
 },
 ]
 
-routes.get('/', (req, resp) => resp.render(views + "index", {profile, jobs}))
+routes.get('/', (req, resp) => {
+  const updatedJobs = jobs.map((job) => {
+    
+    const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed()   
+    
+    const createdDate = new Date(job.created_at)
+    const dueDay = createdDate.getDate()
+
+    return job
+  })
+  
+  resp.render(views + "index", {profile, jobs})
+})
 routes.get('/job', (req, resp) => resp.render(views + "job"))
 routes.post('/job', (req, resp) => {
 
@@ -48,7 +60,7 @@ routes.post('/job', (req, resp) => {
     name: req.body.name,
     "daily-hours": req.body["daily-hours"],
     "total-hours": req.body["total-hours"],
-    created_at: Date.now()
+    created_at: Date.now()  
   })
   
   return resp.redirect('/')
