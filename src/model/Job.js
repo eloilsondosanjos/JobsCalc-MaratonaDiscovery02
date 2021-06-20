@@ -26,6 +26,7 @@ module.exports = {
   get() {
     return data;
   },
+
   update(newJob) {
     data = newJob;
   },
